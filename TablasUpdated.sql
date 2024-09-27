@@ -1,18 +1,45 @@
 -- Creación de la tabla Usuarios
-CREATE TABLE Usuarios (
-    ID int PRIMARY KEY,
-    Name varchar2(255),
-    Password varchar2(255),
-    Team_Role varchar2(255)
+CREATE TABLE Users (
+    ID INT PRIMARY KEY,
+    Name VARCHAR2(255),
+    Password VARCHAR2(255),
+    Team_Role VARCHAR2(100)
 );
 
 -- Creación de la tabla Proyectos
 CREATE TABLE Project (
-    ID int PRIMARY KEY,
-    Name varchar2(255),
-    Status varchar2(255),
+    ID INT PRIMARY KEY,
+    Name VARCHAR2(255),
+    Status VARCHAR2(50),
     Start_Date DATE,
     End_Date DATE
+);
+
+-- Creacion de la Tabla ProjectsAssigned
+CREATE TABLE ProjectsAssigned (
+    ProjectID INT,
+    UserID INT,
+    PRIMARY KEY (ProjectID, UserID),
+    FOREIGN KEY (ProjectID) REFERENCES Project(ID),
+    FOREIGN KEY (UserID) REFERENCES Users(ID)
+);
+
+-- Creación de la tabla Tareas
+CREATE TABLE Task (
+    ID INT PRIMARY KEY,
+    Sprint INT,
+    Description VARCHAR2(1000),
+    Status VARCHAR2(255),
+    EstimatedTime FLOAT,
+    ActualTime FLOAT,
+    CompletionDate DATE,
+    QualityScore INT,
+    TaskEfficiency FLOAT,
+    TaskProductivity FLOAT,
+    AssignedTo INT,
+    ProjectID INT,
+    FOREIGN KEY (AssignedTo) REFERENCES Users(ID),
+    FOREIGN KEY (ProjectID) REFERENCES Project(ID)
 );
 
 -- Creación de la tabla Alertas
@@ -20,21 +47,6 @@ CREATE TABLE Alertas (
     ID int PRIMARY KEY,
     Triggered boolean,
     AlertType varchar2(255)
-);
-
--- Creación de la tabla Tareas
-CREATE TABLE Task (
-    ID int PRIMARY KEY,
-    Description varchar2(1000),
-    Status varchar2(255),
-    EstimatedTime float,
-    ActualTime float,
-    CompletionDate DATE,
-    QualityScore int,
-    TaskEfficiency float,
-    TaskProductivity float,
-    AssignedTo int,
-    FOREIGN KEY (AssignedTo) REFERENCES Usuarios(ID)
 );
 
 -- Relación entre Proyectos y Usuarios
